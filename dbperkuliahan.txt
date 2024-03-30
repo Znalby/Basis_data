@@ -1,0 +1,115 @@
+
+Setting environment for using XAMPP for Windows.
+Dias@ZNALBY c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE dbperkuliahan;
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [(none)]> USE dbperkuliahan;
+Database changed
+MariaDB [dbperkuliahan]> CREATE TABLE jurusan(
+    -> id int primary key auto_increment not null,
+    -> nama varchar (30) not null unique);
+Query OK, 0 rows affected (0.041 sec)
+
+MariaDB [dbperkuliahan]> CREETE TABLE mahasiswa(
+    -> id int primary key
+    -> id int primary key auto_increment not null,
+    -> nim int not null unique,
+    -> nama varchar(30) not null,
+    -> alamat varchar(50) not null,
+    -> idjurusan int not null references jurusan(id),
+    -> foto varchar(50) null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CREETE TABLE mahasiswa(
+id int primary key
+id int primary key auto_increment ...' at line 1
+MariaDB [dbperkuliahan]> CREATE TABLE mahasiswa(
+    -> id int primary key auto_increment not null,
+    -> nim int not null unique,
+    -> nama varchar(30) not null,
+    -> alamat varchar(50) not null,
+    -> idjurusan int not null references jurusan(id),
+    -> foto varchar(50) null);
+Query OK, 0 rows affected (0.044 sec)
+
+MariaDB [dbperkuliahan]> DESC mahasiswa;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nim       | int(11)     | NO   | UNI | NULL    |                |
+| nama      | varchar(30) | NO   |     | NULL    |                |
+| alamat    | varchar(50) | NO   |     | NULL    |                |
+| idjurusan | int(11)     | NO   |     | NULL    |                |
+| foto      | varchar(50) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.022 sec)
+
+MariaDB [dbperkuliahan]> INSERT INTO jurusan (nama) VALUES
+    -> ('Teknik Informatika'),('sistem Informasi'),('Bisnis Digital'),('
+Ilmu Komunikasi'),('Management');
+Query OK, 5 rows affected (0.149 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [dbperkuliahan]> SELECT * FROM jurusan;
++----+--------------------+
+| id | nama               |
++----+--------------------+
+|  3 | Bisnis Digital     |
+|  4 | Ilmu Komunikasi    |
+|  5 | Management         |
+|  2 | sistem Informasi   |
+|  1 | Teknik Informatika |
++----+--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbperkuliahan]> INSERT INTO mahasiswa (nim,nama,alamat,idjurusa
+n,foto)VALUES
+    -> (0110223077,'zen','Depok',1,'zn.jpeg',
+    -> (0110223076,'nana','bogor',2,'nn.jpeg',
+    -> (0110223075,'nurin','jakarta',3,'nrn.jpeg',
+    -> (0110223074,'bagus','jakarta',4,'bg.jpeg',
+    -> (0110223075,'nurin','jakarta',3,'nrn.jpeg'),;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+ERROR 2002 (HY000): Can't connect to MySQL server on 'localhost' (10061)
+ERROR: Can't connect to the server
+
+unknown [dbperkuliahan]> INSERT INTO mahasiswa (nim,nama,alamat,idjurusan,foto)VALUES
+    -> (0110223077,'zen','Depok',1,'zn.jpeg'),
+    -> (0110223076,'nana','bogor',2,'nn.jpeg'),
+    -> (0110223075,'nurin','jakarta',3,'nrn.jpeg'),;
+No connection. Trying to reconnect...
+ERROR 2002 (HY000): Can't connect to MySQL server on 'localhost' (10061)
+ERROR: Can't connect to the server
+
+unknown [dbperkuliahan]> INSERT INTO mahasiswa (nim,nama,alamat,idjurusan,foto)VALUES
+    -> (0110223077,'zen','Depok',1,'zn.jpeg'),
+    -> (0110223076,'nana','bogor',2,'nn.jpeg'),
+    -> (0110223075,'nurin','jakarta',3,'nrn.jpeg'),
+    -> (0110223074,'bagus','jakarta',4,'bg.jpeg'),
+    -> (0110223073,'nuran','jakarta',3,'nrn.jpeg'),;
+No connection. Trying to reconnect...
+Connection id:    8
+Current database: dbperkuliahan
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 6
+MariaDB [dbperkuliahan]> INSERT INTO mahasiswa (nim,nama,alamat,idjurusan,foto)VALUES
+    -> (0110223077,'zen','Depok',1,'zn.jpeg'),
+    -> (0110223076,'nana','bogor',2,'nn.jpeg'),
+    -> (0110223075,'nurin','jakarta',3,'nrn.jpeg'),
+    -> (0110223074,'bagus','jakarta',4,'bg.jpeg'),
+    -> (0110223073,'nuran','jakarta',5,'nrn.jpeg');
+Query OK, 5 rows affected (0.125 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [dbperkuliahan]>
