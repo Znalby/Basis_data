@@ -1,0 +1,601 @@
+soal no.1:
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.003 sec)
+soal no.2:
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+soal no.3:
+MariaDB [dbpegawai]> CREATE TABLE divisi(
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.060 sec)
+soal no.4:
+MariaDB [dbpegawai]> SHOW COLUMNS FROM divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.045 sec)
+soal no.5:
+MariaDB [dbpegawai]> CREATE TABLE jabatan(
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.035 sec)
+soal no.6:
+MariaDB [dbpegawai]> SHOW COLUMNS FROM jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.024 sec)
+soal no.7:
+MariaDB [dbpegawai]> CREATE TABLE pegawai(
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nip CHAR(50) NOT NULL UNIQUE,
+    -> nama VARCHAR(30) NOT NULL,
+    -> gender ENUM('laki-Laki', 'Perempuan')NOT NULL,
+    -> tmp_lahir VARCHAR(30) NOT NULL,
+    -> tgl_lahir DATE NOT NULL,
+    -> iddivisi INT NOT NULL,
+    -> idjabatan INT NOT NULL,
+    -> alamat TEXT,
+    -> FOREIGN KEY (iddivisi) REFERENCES divisi(id),
+    -> FOREIGN KEY (idjabatan) REFERENCES jabatan(id));
+Query OK, 0 rows affected (0.048 sec)
+soal no.8:
+MariaDB [dbpegawai]> SHOW COLUMNS FROM pegawai;
++-----------+-------------------------------+------+-----+---------+----------------+
+| Field     | Type                          | Null | Key | Default | Extra          |
++-----------+-------------------------------+------+-----+---------+----------------+
+| id        | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip       | char(50)                      | NO   | UNI | NULL    |                |
+| nama      | varchar(30)                   | NO   |     | NULL    |                |
+| gender    | enum('laki-Laki','Perempuan') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)                   | NO   |     | NULL    |                |
+| tgl_lahir | date                          | NO   |     | NULL    |                |
+| iddivisi  | int(11)                       | NO   | MUL | NULL    |                |
+| idjabatan | int(11)                       | NO   | MUL | NULL    |                |
+| alamat    | text                          | YES  |     | NULL    |                |
++-----------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.035 sec)
+soal no.9:
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| jabatan             |
+| pegawai             |
++---------------------+
+3 rows in set (0.001 sec)
+soal no.10:
+MariaDB [dbpegawai]> INSERT INTO divisi (nama) VALUES
+    -> ('SDM'),
+    -> ('Keuangan'),
+    -> ('Marketing'),
+    -> ('IT');
+Query OK, 4 rows affected (0.086 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+soal no.11:
+MariaDB [dbpegawai]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+|  4 | IT        |
+|  2 | Keuangan  |
+|  3 | Marketing |
+|  1 | SDM       |
++----+-----------+
+4 rows in set (0.001 sec)
+soal no.12:
+MariaDB [dbpegawai]> INSERT INTO jabatan (nama) VALUES
+    -> ('Direktur'),
+    -> ('Manajer'),
+    -> ('Asisten Manajer'),
+    -> ('Staff');
+Query OK, 4 rows affected (0.009 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+soal no.13:
+MariaDB [dbpegawai]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+|  3 | Asisten Manajer |
+|  1 | Direktur        |
+|  2 | Manajer         |
+|  4 | Staff           |
++----+-----------------+
+4 rows in set (0.001 sec)
+soal no.14:
+MariaDB [dbpegawai]> INSERT INTO pegawai (nip, nama, gender, tmp_lahir, tgl_lahir, iddivisi, idjabatan, alamat) VALUES
+    -> ('10001', 'Muhammad Santoso', 'Laki-Laki', 'Jakarta', '1992-09-03', 1, 1, 'Jakarta'),
+    -> ('10002', 'Asep', 'Laki-Laki', 'Jakarta', '1982-08-05', 1, 2, 'Jakarta'),
+    -> ('10003', 'Santoso', 'Perempuan', 'Bekasi', '2001-12-09', 1, 3, 'Jakarta'),
+    -> ('10004', 'Neneng', 'Perempuan', 'Jakarta', '1982-07-05', 1, 4, 'Jakarta'),
+    -> ('10005', 'Agung', 'Laki-Laki', 'Jakarta', '2005-08-05', 1, 4, 'Jakarta'),
+    -> ('10006', 'Jamal', 'Laki-Laki', 'Jakarta', '1995-01-02', 2, 1, 'Jakarta'),
+    -> ('10007', 'Bagas', 'Laki-Laki', 'Jakarta', '1990-01-12', 2, 2, 'Jakarta'),
+    -> ('10008', 'Rendi', 'Laki-Laki', 'Jakarta', '1998-01-07', 2, 3, 'Jakarta'),
+    -> ('10009', 'Rusdi', 'Laki-Laki', 'Jakarta', '1994-01-07', 2, 4, 'Jakarta'),
+    -> ('10010', 'Riski', 'Laki-Laki', 'Jakarta', '1994-08-07', 2, 4, 'Jakarta'),
+    -> ('10011', 'Risma', 'Perempuan', 'Jakarta', '1992-08-07', 3, 1, 'Jakarta'),
+    -> ('10012', 'Rini', 'Perempuan', 'Jakarta', '2005-08-07', 3, 2, 'Jakarta'),
+    -> ('10013', 'Rina', 'Perempuan', 'Jakarta', '2005-08-07', 3, 3, 'Jakarta'),
+    -> ('10014', 'Rianti', 'Perempuan', 'Jakarta', '2005-08-07', 3, 4, 'Jakarta'),
+    -> ('10015', 'Riska', 'Perempuan', 'Jakarta', '2005-08-07', 3, 4, 'Jakarta'),
+    -> ('10016', 'Naila', 'Perempuan', 'Jakarta', '2005-08-07', 4, 4, 'Jakarta'),
+    -> ('10017', 'Nabila', 'Perempuan', 'Jakarta', '2005-08-07', 4, 4, 'Jakarta'),
+    -> ('10018', 'Nurul', 'Perempuan', 'Jakarta', '2005-08-07', 4, 3, 'Jakarta'),
+    -> ('10019', 'Cupli', 'Laki-Laki', 'Jakarta', '2000-08-07', 4, 2, 'Jakarta'),
+    -> ('10020', 'Zen', 'Laki-Laki', 'Jakarta', '2000-08-07', 4, 1, 'Jakarta');
+Query OK, 20 rows affected (0.029 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+soal no.15:
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+------------------+-----------+-----------+------------+----------+-----------+---------+
+| id | nip   | nama             | gender    | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  |
++----+-------+------------------+-----------+-----------+------------+----------+-----------+---------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |
+|  2 | 10002 | Asep             | Laki-Laki | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |
+|  3 | 10003 | Santoso          | Perempuan | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |
+|  4 | 10004 | Neneng           | Perempuan | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |
+|  5 | 10005 | Agung            | Laki-Laki | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |
+|  6 | 10006 | Jamal            | Laki-Laki | Jakarta   | 1995-01-02 |        2 |         1 | Jakarta |
+|  7 | 10007 | Bagas            | Laki-Laki | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |
+|  8 | 10008 | Rendi            | Laki-Laki | Jakarta   | 1998-01-07 |        2 |         3 | Jakarta |
+|  9 | 10009 | Rusdi            | Laki-Laki | Jakarta   | 1994-01-07 |        2 |         4 | Jakarta |
+| 10 | 10010 | Riski            | Laki-Laki | Jakarta   | 1994-08-07 |        2 |         4 | Jakarta |
+| 11 | 10011 | Risma            | Perempuan | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |
+| 12 | 10012 | Rini             | Perempuan | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |
+| 13 | 10013 | Rina             | Perempuan | Jakarta   | 2005-08-07 |        3 |         3 | Jakarta |
+| 14 | 10014 | Rianti           | Perempuan | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |
+| 15 | 10015 | Riska            | Perempuan | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |
+| 16 | 10016 | Naila            | Perempuan | Jakarta   | 2005-08-07 |        4 |         4 | Jakarta |
+| 17 | 10017 | Nabila           | Perempuan | Jakarta   | 2005-08-07 |        4 |         4 | Jakarta |
+| 18 | 10018 | Nurul            | Perempuan | Jakarta   | 2005-08-07 |        4 |         3 | Jakarta |
+| 19 | 10019 | Cupli            | Laki-Laki | Jakarta   | 2000-08-07 |        4 |         2 | Jakarta |
+| 20 | 10020 | Zen              | Laki-Laki | Jakarta   | 2000-08-07 |        4 |         1 | Jakarta |
++----+-------+------------------+-----------+-----------+------------+----------+-----------+---------+
+20 rows in set (0.001 sec)
+soal no.16:
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Cupli Ganteng', tgl_lahir = '2005-07-20', alamat = 'Bogor'
+    -> WHERE nip = '10019';
+Query OK, 1 row affected (0.022 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Zen Ganteng', tgl_lahir = '2005-07-20', alamat = 'Bogor'
+    -> WHERE nip = '10020';
+Query OK, 1 row affected (0.022 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Nabila Cantik', tgl_lahir = '2005-07-20', alamat = 'Bogor'
+    -> WHERE nip = '10017';
+Query OK, 1 row affected (0.021 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Naila Cantik', tgl_lahir = '2005-07-20', alamat = 'Bogor'
+    -> WHERE nip = '10016';
+Query OK, 1 row affected (0.021 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET nama = 'Riska Cantik', tgl_lahir = '2005-07-20', alamat = 'Bogor'
+    -> WHERE nip = '10015';
+Query OK, 1 row affected (0.006 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+soal no.17:
+MariaDB [dbpegawai]> DELETE FROM pegawai
+    -> WHERE id IN(
+    -> SELECT id
+    -> FROM(
+    -> SELECT id
+    -> FROM pegawai
+    -> ORDER BY id DESC
+    -> LIMIT 2
+    -> )AS last_two
+    -> );
+Query OK, 2 rows affected (0.010 sec)
+soal no.18:
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN berat_badan FLOAT NOT NULL;
+Query OK, 0 rows affected (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = ROUND(RAND()*50 + 40,2);
+Query OK, 18 rows affected (0.012 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+soal no.19:
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN umur INT NOT NULL;
+Query OK, 0 rows affected (0.016 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET umur = timestampdiff(year, tgl_lahir, curdate());
+Query OK, 18 rows affected (0.017 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+soal no.20:
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> CHANGE COLUMN gender jenis_kelamin VARCHAR(15)NOT NULL;
+Query OK, 18 rows affected (0.086 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+soal no.21:
+MariaDB [dbpegawai]> SELECT nip, nama, jenis_kelamin, alamat
+    -> FROM pegawai;
++-------+------------------+---------------+---------+
+| nip   | nama             | jenis_kelamin | alamat  |
++-------+------------------+---------------+---------+
+| 10001 | Muhammad Santoso | Laki-Laki     | Jakarta |
+| 10002 | Asep             | Laki-Laki     | Jakarta |
+| 10003 | Santoso          | Perempuan     | Jakarta |
+| 10004 | Neneng           | Perempuan     | Jakarta |
+| 10005 | Agung            | Laki-Laki     | Jakarta |
+| 10006 | Jamal            | Laki-Laki     | Jakarta |
+| 10007 | Bagas            | Laki-Laki     | Jakarta |
+| 10008 | Rendi            | Laki-Laki     | Jakarta |
+| 10009 | Rusdi            | Laki-Laki     | Jakarta |
+| 10010 | Riski            | Laki-Laki     | Jakarta |
+| 10011 | Risma            | Perempuan     | Jakarta |
+| 10012 | Rini             | Perempuan     | Jakarta |
+| 10013 | Rina             | Perempuan     | Jakarta |
+| 10014 | Rianti           | Perempuan     | Jakarta |
+| 10015 | Riska Cantik     | Perempuan     | Bogor   |
+| 10016 | Naila Cantik     | Perempuan     | Bogor   |
+| 10017 | Nabila Cantik    | Perempuan     | Bogor   |
+| 10018 | Nurul            | Perempuan     | Bogor   |
++-------+------------------+---------------+---------+
+18 rows in set (0.002 sec)
+soal no.22:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki';
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  5 | 10005 | Agung            | Laki-Laki     | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |       79.24 |   18 |
+|  6 | 10006 | Jamal            | Laki-Laki     | Jakarta   | 1995-01-02 |        2 |         1 | Jakarta |       82.02 |   29 |
+|  7 | 10007 | Bagas            | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
+|  8 | 10008 | Rendi            | Laki-Laki     | Jakarta   | 1998-01-07 |        2 |         3 | Jakarta |       75.89 |   26 |
+|  9 | 10009 | Rusdi            | Laki-Laki     | Jakarta   | 1994-01-07 |        2 |         4 | Jakarta |       42.27 |   30 |
+| 10 | 10010 | Riski            | Laki-Laki     | Jakarta   | 1994-08-07 |        2 |         4 | Jakarta |       43.67 |   29 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+8 rows in set (0.001 sec)
+soal no.23:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = (SELECT id FROM divisi WHERE nama ='IT')
+    -> AND jenis_kelamin ='Perempuan';
++----+-------+---------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+| 16 | 10016 | Naila Cantik  | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor  |       74.83 |   18 |
+| 17 | 10017 | Nabila Cantik | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor  |       73.24 |   18 |
+| 18 | 10018 | Nurul         | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor  |       51.69 |   18 |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+3 rows in set (0.001 sec)
+soal no.24:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE umur > 30 AND tmp_lahir ='Jakarta';
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+|  7 | 10007 | Bagas            | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
+| 11 | 10011 | Risma            | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+5 rows in set (0.001 sec)
+soal no.25:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = (SELECT id FROM divisi WHERE name ='Marketing')
+    -> AND umur > 30
+    -> AND jenis_kelamin ='Perempuan';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = (SELECT id FROM divisi WHERE nama ='Marketing')
+    -> AND umur > 30
+    -> AND jenis_kelamin ='Perempuan';
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama  | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| 11 | 10011 | Risma | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+soal no.26:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY nip;
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  3 | 10003 | Santoso          | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+|  5 | 10005 | Agung            | Laki-Laki     | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |       79.24 |   18 |
+|  6 | 10006 | Jamal            | Laki-Laki     | Jakarta   | 1995-01-02 |        2 |         1 | Jakarta |       82.02 |   29 |
+|  7 | 10007 | Bagas            | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
+|  8 | 10008 | Rendi            | Laki-Laki     | Jakarta   | 1998-01-07 |        2 |         3 | Jakarta |       75.89 |   26 |
+|  9 | 10009 | Rusdi            | Laki-Laki     | Jakarta   | 1994-01-07 |        2 |         4 | Jakarta |       42.27 |   30 |
+| 10 | 10010 | Riski            | Laki-Laki     | Jakarta   | 1994-08-07 |        2 |         4 | Jakarta |       43.67 |   29 |
+| 11 | 10011 | Risma            | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
+| 12 | 10012 | Rini             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |       86.77 |   18 |
+| 13 | 10013 | Rina             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         3 | Jakarta |       89.17 |   18 |
+| 14 | 10014 | Rianti           | Perempuan     | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |       45.57 |   18 |
+| 15 | 10015 | Riska Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        3 |         4 | Bogor   |       70.31 |   18 |
+| 16 | 10016 | Naila Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       74.83 |   18 |
+| 17 | 10017 | Nabila Cantik    | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       73.24 |   18 |
+| 18 | 10018 | Nurul            | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor   |       51.69 |   18 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+18 rows in set (0.001 sec)
+soal no.27:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin ='Perempuan';
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  3 | 10003 | Santoso       | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
+|  4 | 10004 | Neneng        | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+| 11 | 10011 | Risma         | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
+| 12 | 10012 | Rini          | Perempuan     | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |       86.77 |   18 |
+| 13 | 10013 | Rina          | Perempuan     | Jakarta   | 2005-08-07 |        3 |         3 | Jakarta |       89.17 |   18 |
+| 14 | 10014 | Rianti        | Perempuan     | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |       45.57 |   18 |
+| 15 | 10015 | Riska Cantik  | Perempuan     | Jakarta   | 2005-07-20 |        3 |         4 | Bogor   |       70.31 |   18 |
+| 16 | 10016 | Naila Cantik  | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       74.83 |   18 |
+| 17 | 10017 | Nabila Cantik | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       73.24 |   18 |
+| 18 | 10018 | Nurul         | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor   |       51.69 |   18 |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+10 rows in set (0.001 sec)
+soal no.28:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nip  IN ('10001', '10004', '10012');
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+| 12 | 10012 | Rini             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |       86.77 |   18 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+3 rows in set (0.001 sec)
+soal no.29:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE tmp_lahir NOT IN ('Jakarta');
++----+-------+---------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama    | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+---------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  3 | 10003 | Santoso | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+soal no.30:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY nama ASC;
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  5 | 10005 | Agung            | Laki-Laki     | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |       79.24 |   18 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  7 | 10007 | Bagas            | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
+|  6 | 10006 | Jamal            | Laki-Laki     | Jakarta   | 1995-01-02 |        2 |         1 | Jakarta |       82.02 |   29 |
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  3 | 10003 | Santoso          | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
+| 17 | 10017 | Nabila Cantik    | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       73.24 |   18 |
+| 16 | 10016 | Naila Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       74.83 |   18 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+| 18 | 10018 | Nurul            | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor   |       51.69 |   18 |
+|  8 | 10008 | Rendi            | Laki-Laki     | Jakarta   | 1998-01-07 |        2 |         3 | Jakarta |       75.89 |   26 |
+| 14 | 10014 | Rianti           | Perempuan     | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |       45.57 |   18 |
+| 13 | 10013 | Rina             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         3 | Jakarta |       89.17 |   18 |
+| 12 | 10012 | Rini             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |       86.77 |   18 |
+| 15 | 10015 | Riska Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        3 |         4 | Bogor   |       70.31 |   18 |
+| 10 | 10010 | Riski            | Laki-Laki     | Jakarta   | 1994-08-07 |        2 |         4 | Jakarta |       43.67 |   29 |
+| 11 | 10011 | Risma            | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
+|  9 | 10009 | Rusdi            | Laki-Laki     | Jakarta   | 1994-01-07 |        2 |         4 | Jakarta |       42.27 |   30 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+18 rows in set (0.001 sec)
+soal no.31:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY berat_badan DESC;
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| 13 | 10013 | Rina             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         3 | Jakarta |       89.17 |   18 |
+| 12 | 10012 | Rini             | Perempuan     | Jakarta   | 2005-08-07 |        3 |         2 | Jakarta |       86.77 |   18 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  3 | 10003 | Santoso          | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
+|  7 | 10007 | bagas            | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
+|  6 | 10006 | Jamal            | Laki-Laki     | Jakarta   | 1995-01-02 |        2 |         1 | Jakarta |       82.02 |   29 |
+|  5 | 10005 | Agung            | Laki-Laki     | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |       79.24 |   18 |
+|  8 | 10008 | Rendi            | Laki-Laki     | Jakarta   | 1998-01-07 |        2 |         3 | Jakarta |       75.89 |   26 |
+| 16 | 10016 | Naila Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       74.83 |   18 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+| 17 | 10017 | Nabila Cantik    | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       73.24 |   18 |
+| 15 | 10015 | Riska Cantik     | Perempuan     | Jakarta   | 2005-07-20 |        3 |         4 | Bogor   |       70.31 |   18 |
+| 18 | 10018 | Nurul            | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor   |       51.69 |   18 |
+| 11 | 10011 | Risma            | Perempuan     | Jakarta   | 1992-08-07 |        3 |         1 | Jakarta |       51.56 |   31 |
+| 14 | 10014 | Rianti           | Perempuan     | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |       45.57 |   18 |
+| 10 | 10010 | Riski            | Laki-Laki     | Jakarta   | 1994-08-07 |        2 |         4 | Jakarta |       43.67 |   29 |
+|  9 | 10009 | Rusdi            | Laki-Laki     | Jakarta   | 1994-01-07 |        2 |         4 | Jakarta |       42.27 |   30 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+18 rows in set (0.100 sec)
+soal no.32:
+MariaDB [dbpegawai]> SELECT * FROM pegawai LIMIT 5;
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
+|  2 | 10002 | Asep             | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
+|  3 | 10003 | Santoso          | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
+|  4 | 10004 | Neneng           | Perempuan     | Jakarta   | 1982-07-05 |        1 |         4 | Jakarta |       74.73 |   41 |
+|  5 | 10005 | Agung            | Laki-Laki     | Jakarta   | 2005-08-05 |        1 |         4 | Jakarta |       79.24 |   18 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+5 rows in set (0.001 sec)
+soal no.33:
+MariaDB [dbpegawai]> SELECT * FROM pegawai LIMIT 5 OFFSET 13;
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| 14 | 10014 | Rianti        | Perempuan     | Jakarta   | 2005-08-07 |        3 |         4 | Jakarta |       45.57 |   18 |
+| 15 | 10015 | Riska Cantik  | Perempuan     | Jakarta   | 2005-07-20 |        3 |         4 | Bogor   |       70.31 |   18 |
+| 16 | 10016 | Naila Cantik  | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       74.83 |   18 |
+| 17 | 10017 | Nabila Cantik | Perempuan     | Jakarta   | 2005-07-20 |        4 |         4 | Bogor   |       73.24 |   18 |
+| 18 | 10018 | Nurul         | Perempuan     | Jakarta   | 2005-07-20 |        4 |         3 | Bogor   |       51.69 |   18 |
++----+-------+---------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+5 rows in set (0.001 sec)
+soal no.34:
+MariaDB [dbpegawai]> SELECT COUNT(*)AS total_pegawai
+    -> FROM pegawai;
++---------------+
+| total_pegawai |
++---------------+
+|            18 |
++---------------+
+1 row in set (0.001 sec)
+soal no.35:
+MariaDB [dbpegawai]> SELECT nip, nama, (YEAR(CURDATE()) - YEAR(tgl_lahir)) - (RIGHT(CURDATE(), 5) < RIGHT(tgl_lahir, 5)) AS umur
+    -> FROM pegawai
+    -> WHERE (YEAR(CURDATE()) - YEAR(tgl_lahir)) - (RIGHT(CURDATE(), 5) < RIGHT(tgl_lahir, 5)) = (
+    -> SELECT MAX((YEAR(CURDATE()) - YEAR(tgl_Lahir)) - (RIGHT(CURDATE(), 5) < RIGHT(tgl_lahir, 5)))
+    -> FROM pegawai);
++-------+--------+------+
+| nip   | nama   | umur |
++-------+--------+------+
+| 10002 | Asep   |   41 |
+| 10004 | Neneng |   41 |
++-------+--------+------+
+2 rows in set (0.001 sec)
+soal no.36:
+MariaDB [dbpegawai]> SELECT nip, nama, berat_badan FROM pegawai
+    -> WHERE berat_badan = (
+    -> SELECT MIN(berat_badan)
+    -> FROM pegawai);
++-------+-------+-------------+
+| nip   | nama  | berat_badan |
++-------+-------+-------------+
+| 10009 | Rusdi |       42.27 |
++-------+-------+-------------+
+1 row in set (0.001 sec)
+soal no.37:
+MariaDB [dbpegawai]> SELECT AVG(umur) AS rata_rata_umur_pegawai
+    -> FROM pegawai;
++------------------------+
+| rata_rata_umur_pegawai |
++------------------------+
+|                25.4444 |
++------------------------+
+1 row in set (0.001 sec)
+soal no.38:
+MariaDB [dbpegawai]> SELECT COUNT(*)AS jumlah_pegawai
+    -> FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki'
+    -> AND TIMESTAMPDIFF(YEAR, tgl_lahir, CURDATE()) > 40
+    -> AND idjabatan = (SELECT id FROM jabatan WHERE nama = 'Manajer');
++----------------+
+| jumlah_pegawai |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.001 sec)
+soal no.39:
+MariaDB [dbpegawai]> SELECT COUNT(*)AS jumlah_pegawai
+    -> FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan'
+    -> AND TIMESTAMPDIFF(YEAR, tgl_lahir, CURDATE()) > 40
+    -> AND idjabatan = (SELECT id FROM jabatan WHERE nama = 'Staff');
++----------------+
+| jumlah_pegawai |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.001 sec)
+soal no.40:
+MariaDB [dbpegawai]> SELECT COUNT(*)AS jumlah_pegawai_perempuan
+    -> FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan';
++--------------------------+
+| jumlah_pegawai_perempuan |
++--------------------------+
+|                       10 |
++--------------------------+
+1 row in set (0.001 sec)
+soal no.41:
+MariaDB [dbpegawai]> SELECT SUM(CASE WHEN iddivisi = (SELECT id FROM div
+isi WHERE nama ='SDM') THEN 1 ELSE 0 END) AS jumlah_pegawai_SDM
+    -> FROM pegawai;
++--------------------+
+| jumlah_pegawai_SDM |
++--------------------+
+|                  5 |
++--------------------+
+1 row in set (0.001 sec)
+soal no.42:
+MariaDB [dbpegawai]> SELECT iddivisi, COUNT(*) AS jumlah_pegawai
+    -> FROM pegawai
+    -> GROUP BY iddivisi;
++----------+----------------+
+| iddivisi | jumlah_pegawai |
++----------+----------------+
+|        1 |              5 |
+|        2 |              5 |
+|        3 |              5 |
+|        4 |              3 |
++----------+----------------+
+4 rows in set (0.001 sec)
+soal no.43:
+MariaDB [dbpegawai]> SELECT jenis_kelamin, COUNT(*) AS jumlah_pegawai
+    -> FROM pegawai
+    -> GROUP BY jenis_kelamin
+    -> HAVING COUNT(*) >= 10;
++---------------+----------------+
+| jenis_kelamin | jumlah_pegawai |
++---------------+----------------+
+| Perempuan     |             10 |
++---------------+----------------+
+1 row in set (0.001 sec)
+soal no.44:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE 'Muhammad%';
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 10001 | Muhammad Santoso | Laki-Laki     | Jakarta   | 1992-09-03 |        1 |         1 | Jakarta |       85.77 |   31 |
++----+-------+------------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+soal no.45:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE 'Santoso%';
++----+-------+---------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama    | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+---------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  3 | 10003 | Santoso | Perempuan     | Bekasi    | 2001-12-09 |        1 |         3 | Jakarta |        84.8 |   22 |
++----+-------+---------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+soal no.46:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE 'Asep%';
++----+-------+------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  2 | 10002 | Asep | Laki-Laki     | Jakarta   | 1982-08-05 |        1 |         2 | Jakarta |       86.42 |   41 |
++----+-------+------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+soal no.47:
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE SUBSTRING(nama, 5, 1) ='s';
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama  | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  7 | 10007 | bagas | Laki-Laki     | Jakarta   | 1990-01-12 |        2 |         2 | Jakarta |       82.39 |   34 |
++----+-------+-------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpegawai]>
